@@ -25,6 +25,7 @@ app.get("/dataSQLite", (req, res) => {
             resObj.res = rows
         }
 
+        res.setHeader('Access-Control-Allow-Origin', '*')
         res.json(resObj)
     })
 })
