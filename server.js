@@ -95,7 +95,7 @@ app.get("/add", (req, res) => {
     let parsedUrl = url.parse(req.url)
     let parsedQS = queryString.parse(parsedUrl.query)
 
-    let sql = 'INSERT INTO studentDB (studentName, surname, fatherName, birthDate, serveralMark, id) VALUE (?, ?, ?, ?, ?, ?)'
+    let sql = 'INSERT INTO studentDB (studentName, surname, fatherName, birthDate, severalMark, id) VALUE (?, ?, ?, ?, ?, ?)'
     let resObj = {
         res: false,
         status: 'FAILED'
