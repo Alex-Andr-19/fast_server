@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
+const url = require('url')
+const queryString = require('querystring')
 
 const sqlite3 = require('sqlite3').verbose()
 let db = new sqlite3.Database('./db.db')
-
-const urlencodedParser = express.urlencoded({extended: false});
 
 app.get("/dataStatic", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -33,11 +33,14 @@ app.get("/dataSQLite", (req, res) => {
     })
 })
 
-app.post("/edit", urlencodedParser, (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
+app.get("/edit", (req, res) => {
+    let parsedUrl = url.parse(req.url)
+    let parsedQS = queryString.parse(parsedUrl.query)
 
-    console.log(req.body);
-    res.status(204).json({ success: true });
+    console.log(parsedQS);
+
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.json({ success: true });
 })
 
 app.listen(port, () => {
