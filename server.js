@@ -34,9 +34,9 @@ app.get("/dataSQLite", (req, res) => {
 })
 
 app.post("/edit", urlencodedParser, (req, res) => {
-    console.log(req.body);
-
     res.setHeader('Access-Control-Allow-Origin', '*')
+
+    console.log(req.body);
     res.json({ success: true });
 })
 
