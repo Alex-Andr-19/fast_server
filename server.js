@@ -94,8 +94,9 @@ app.get("/add", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     let parsedUrl = url.parse(req.url)
     let parsedQS = queryString.parse(parsedUrl.query)
+    console.log(parsedQS)
 
-    let sql = 'INSERT INTO studentDB (studentName, surname, fatherName, birthDate, severalMark, id) VALUE (?, ?, ?, ?, ?, ?)'
+    let sql = 'INSERT INTO studentDB ("studentName", "surname", "fatherName", "birthDate", "severalMark", "id") VALUES (?, ?, ?, ?, ?, ?)'
     let resObj = {
         res: false,
         status: 'FAILED'
