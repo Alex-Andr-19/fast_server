@@ -90,6 +90,35 @@ app.get("/delete", (req, res) => {
     })
 })
 
+app.get("/add", (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    let parsedUrl = url.parse(req.url)
+    let parsedQS = queryString.parse(parsedUrl.query)
+
+    let sql = 'INSERT INTO studentDB (studentName, surname, fatherName, birthDate, serveralMark, id) VALUE (?, ?, ?, ?, ?, ?)'
+    let resObj = {
+        res: false,
+        status: 'FAILED'
+    }
+
+    db.run(sql, [
+        parsedQS.studentName,
+        parsedQS.surname,
+        parsedQS.fatherName,
+        parsedQS.birthDate,
+        parsedQS.severalMark,
+        parsedQS.id
+    ], (er) => {
+        if (er) {
+            console.log(er)
+        } else {
+            resObj.res = true
+            resObj.status = 'SUCCESS'
+        }
+
+        res.json(resObj)
+    })
+})
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
