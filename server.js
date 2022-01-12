@@ -5,10 +5,13 @@ const port = process.env.PORT || 3000
 const sqlite3 = require('sqlite3').verbose()
 let db = new sqlite3.Database('./db.db')
 
+const urlencodedParser = express.urlencoded({extended: false});
+
 app.get("/dataStatic", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.sendFile(__dirname + "/db.json")
 })
+
 app.get("/dataSQLite", (req, res) => {
     let sql = 'SELECT * FROM studentDB'
 
@@ -28,6 +31,13 @@ app.get("/dataSQLite", (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*')
         res.json(resObj)
     })
+})
+
+app.post("/edit", urlencodedParser, (req, res) => {
+    console.log(req.body);
+
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.json({ success: true });
 })
 
 app.listen(port, () => {
