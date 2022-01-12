@@ -7,6 +7,8 @@ const queryString = require('querystring')
 const sqlite3 = require('sqlite3').verbose()
 let db = new sqlite3.Database('./db.db')
 
+let lastID = 4
+
 app.get("/dataStatic", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.sendFile(__dirname + "/db.json")
@@ -19,6 +21,7 @@ app.get("/dataSQLite", (req, res) => {
         res: {},
         status: false
     }
+
 
     db.all(sql, [], (er, rows) => {
         if (er) {
@@ -34,13 +37,36 @@ app.get("/dataSQLite", (req, res) => {
 })
 
 app.get("/edit", (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    console.log(db)
     let parsedUrl = url.parse(req.url)
     let parsedQS = queryString.parse(parsedUrl.query)
+    console.log(parsedQS)
 
-    console.log(parsedQS);
+    let sql = 'UPDATE studentDB SET studentName=(?), surname=(?), fatherName=(?), birthDate=(?), severalMark=(?) WHERE id=(?)'
+    let resObj = {
+        res: "FAILED",
+        success: false
+    }
 
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.json({ success: true });
+    db.run(sql, [
+        parsedQS.studentName,
+        parsedQS.surname,
+        parsedQS.fatherName,
+        parsedQS.birthDate,
+        parsedQS.severalMark,
+        parsedQS.studentID
+    ], (er) => {
+        if (er) {
+            console.log(er)
+        } else {
+            resObj.res = "SUCCESS"
+            resObj.success = true
+        }
+
+        console.log("HERE!!!")
+        res.json(resObj)
+    })
 })
 
 app.listen(port, () => {
