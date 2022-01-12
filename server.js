@@ -37,7 +37,7 @@ app.post("/edit", urlencodedParser, (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
 
     console.log(req.body);
-    res.json({ success: true });
+    res.status(204).json({ success: true });
 })
 
 app.listen(port, () => {
