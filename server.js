@@ -9,6 +9,11 @@ let db = new sqlite3.Database('./db.db')
 
 let lastID = 4
 
+app.get("/get_cocktails", (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.sendFile(__dirname + "/new_cocktails.json")
+})
+
 app.get("/dataStatic", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.sendFile(__dirname + "/db.json")
